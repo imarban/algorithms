@@ -6,4 +6,5 @@ target/
 out/
 *.iml
 __pycache__/
-
+.DS_Store
+.vscode/

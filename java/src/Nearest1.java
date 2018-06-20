@@ -1,0 +1,65 @@
+
+public class Nearest1 {
+
+    public static void main(String[] args) {
+        int[][] matrix = {
+            {0, 0, 0, 1},
+            {0, 0, 1, 1},
+            {0, 1, 1, 0}
+        };
+
+        Nearest1 nearest = new Nearest1();
+        nearest.getNearestCell(matrix, 3, 4);
+
+    }
+
+    private void getNearestCell(int[][] matrix, int n, int m) {
+        boolean[][] visited = new boolean[n][m];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                visited[i][j] = false;
+            }
+        }
+        int[] result = getNearestCellUtil(matrix, 0,0, n, m, visited);
+        System.out.println(result[0]);
+        System.out.println(result[1]);
+    }
+
+    private boolean canMove(int i, int j, int n, int m, int[][] matrix, boolean[][] visited) {
+        boolean isInBounds =  i >= 0 && j >= 0 && i < n && j < m;
+        return isInBounds && !visited[i][j];
+    }
+
+    private int[] getNearestCellUtil(int[][] matrix, int i, int j, int n, int m, boolean[][] visited) {
+        int[] result = new int[2];
+        if (matrix[i][j] == 1) {
+            result = new int[]{i, j};
+        }
+
+        visited[i][j] = true;
+
+        // right
+        if (canMove(i, j+1, n, m, matrix, visited)) {
+            getNearestCellUtil(matrix, i, j + 1, n, m, visited);
+        }
+
+        // down
+        if (canMove(i + 1, j, n, m, matrix, visited)) {
+            getNearestCellUtil(matrix, i + 1, j, n, m, visited);
+        }
+
+        // left
+        if (canMove(i, j - 1, n, m, matrix, visited)) {
+            getNearestCellUtil(matrix, i, j - 1, n, m, visited);
+        }
+
+        // up
+        if (canMove(i - 1, j, n, m, matrix, visited)) {
+            getNearestCellUtil(matrix, i - 1, j, n, m, visited);
+        }
+
+        return result;
+    }
+
+}
